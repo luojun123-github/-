@@ -1,0 +1,277 @@
+方法一：
+if判断
+
+/*
+int main()
+{
+	char szBuf[52] = "";
+	bool bFlag = true;
+	int i = 0;
+	int j = 0;
+
+
+
+while (true)
+	{
+		cout << "> ";
+		cin >> szBuf;
+		int i = 0;
+		while ((bFlag = (szBuf[i] == *("One" + i))) && '\0' != szBuf[i++]);
+		if (bFlag)
+		{
+			cout << "One Command!" << endl;
+		}
+
+
+		i = 0;
+		while ((bFlag = (szBuf[i] == *("Two" + i))) && '\0' != szBuf[i++]);
+		if (bFlag)
+		{
+			cout << "Two Command!" << endl;
+		}
+
+
+
+		i = 0;
+		while ((bFlag = (szBuf[i] == *("Three" + i))) && '\0' != szBuf[i++]);
+		if (bFlag)
+		{
+			cout << "Three Command!" << endl;
+		}
+
+
+		i = 0;
+		while ((bFlag = (szBuf[i] == *("Four" + i))) && '\0' != szBuf[i++]);
+		if (bFlag)
+		{
+			cout << "Four Command!" << endl;
+		}
+
+
+		i = 0;
+		while ((bFlag = (szBuf[i] == *("Five" + i))) && '\0' != szBuf[i++]);
+		if (bFlag)
+		{
+			cout << "Five Command!" << endl;
+		}
+
+
+
+		i = 0;
+		while ((bFlag = (szBuf[i] == *("Exit" + i))) && '\0' != szBuf[i++]);
+		if (bFlag)
+		{
+			cout << "Exit Command!" << endl;
+			break;
+		}
+
+
+
+
+
+	}
+
+
+
+
+return 0;
+}
+
+*/
+
+
+
+
+
+
+方法二：
+指针数组；
+
+#include <iostream>
+using namespace std;
+
+const char *pStr[6] = { {"Exit"}, {"One"},{"Two"},{"Three"},{"Four"},{"Five"} };
+
+int main()
+{
+	char szBuf[52] = "";
+	bool bFlag = true;
+	int i = 0;
+	int j = 0;
+
+	while (true)
+	{
+		cout <<"> ";
+		cin >> szBuf;
+		j = 0;
+		while (j < 6)
+		{
+			i = 0;
+			while ((bFlag = (szBuf[i] == pStr[j][i])) && ('\0' != szBuf[i++]));
+			if (bFlag)
+			{
+				if (0 == j)
+				{
+					break;
+				}
+				cout << pStr[j] << "  Command!" << endl;
+				break;
+			}
+
+			j++;
+		}
+
+		if (0 == j)
+		{
+			break;
+		}
+		
+	}
+
+	return 0;
+}
+
+
+
+
+
+
+方法三：
+结构体数组
+
+#include <iostream>
+using namespace std;
+
+struct CMD
+{
+	const char *pStrName;
+	const char *pStrInfo;
+};
+
+const CMD g_Cmd[6] = {
+				{"Exit",NULL},
+				{"One","One Command!"},
+				{"Two","Two Command!"},
+				{"Three","Three Command!"},
+				{"Four","FourCommand!"},
+				{"Five","Five Command!"},
+			  };
+
+int main()
+{
+
+	char szCmd[52] = "";
+	bool bFlag = true;
+	int i = 0;
+	int j = 0;
+	
+	while (true)
+	{
+		cout << "> ";
+		cin >> szCmd;
+		j = 0;
+		while (j<6)
+		{
+			i = 0;
+			while ((bFlag = (szCmd[i] == g_Cmd[j].pStrName[i])) && '\0' != szCmd[i++]);
+			if (bFlag)
+			{
+				if (NULL == g_Cmd[j].pStrInfo)
+				{
+					break;
+				}
+				cout << g_Cmd[j].pStrInfo << endl;
+				break;
+			}
+
+			j++;
+		}
+
+		if (NULL == g_Cmd[j].pStrInfo)
+		{
+			break;
+		}
+
+	}
+
+	
+
+	return 0;
+}
+
+
+
+
+
+
+
+方法四：结构体指针
+
+
+#include <iostream>
+using namespace std;
+
+struct CMD
+{
+	const char *pStrName;
+	const char *pStrInfo;
+};
+
+const CMD g_Cmd[] = {
+				{"Exit",NULL},
+				{"One","One Command!"},
+				{"Two","Two Command!"},
+				{"Three","Three Command!"},
+				{"Four","Four Command!"},
+				{"Five","Five Command!"},
+				{NULL,NULL}
+			  };
+
+int main()
+{
+
+	char szCmd[52] = "";
+	bool bFlag = true;
+	int i = 0;
+	int j = 0;
+
+	CMD *pCmd = NULL;
+	
+	while (true)
+	{
+		pCmd = (CMD *)g_Cmd;
+		cout << "> ";
+		cin >> szCmd;
+
+		while (NULL != pCmd->pStrName)
+		{
+			i = 0;
+			while ((bFlag = (szCmd[i] == pCmd->pStrName[i])) && '\0' != szCmd[i++]);
+			if (bFlag)
+			{
+				if (NULL == pCmd->pStrInfo)
+				{
+					break;
+				}
+				cout << pCmd->pStrInfo << endl;
+				break;
+			}
+
+			pCmd++;
+		}
+
+		if (NULL == pCmd->pStrInfo)
+		{
+			break;
+		}
+		
+	}
+
+	
+
+	return 0;
+}
+
+
+
+
